@@ -19,7 +19,7 @@ public class ImageTools {
     private static int HEIGHT = 250;
     private static int WIDTH = 250;
 
-    public static void showSpecImage(float[][] spec, float smax, float smin, int height, int width, float smean) {
+    public static void showSpecImage(float[][] spec, float smax, float smin, int height, int width, float smean, int[][] tonalLines) {
 
         HEIGHT = height;
         WIDTH = width;
@@ -36,6 +36,15 @@ public class ImageTools {
 
                 g.setColor(new Color(c, c, c));
                 g.fillRect(i, j, 1, 1);
+            }
+            for(int t = 0; t < tonalLines[0].length; t++){
+                float c = spec[tonalLines[i][t]][i];
+                c = (float) ((c-smin)/(smax-smin));
+                
+                //if (c<0.6) c=0;
+                
+                g.setColor(new Color(1, 0, 0, c));
+                g.fillRect(i, tonalLines[i][t], 1, 1);
             }
         }
 

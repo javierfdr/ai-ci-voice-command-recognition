@@ -253,8 +253,8 @@ public class SpectrogramRecognizer {
         float[][] temp = new float[seg_len][(int) n_segs];
         float[][] frame = new float[seg_len][(int) n_segs];
         float padlen = (n_segs - 1) * n_shift + seg_len;
-        logger.debug("DEBUG10" + "padlen = " + padlen);
-        logger.debug("DEBUG10" + "len = " + array2.length);
+        logger.debug("padlen = " + padlen);
+        logger.debug("len = " + array2.length);
 
         wn = hamming(seg_len);
         for (int i = 0; i < n_segs; i++) {
