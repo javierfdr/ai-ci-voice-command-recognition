@@ -1,6 +1,6 @@
 clear all;close all;clc;
 addpath('./voicebox');
-audiodir = 'audio_files/prueba/';
+audiodir = 'audio_files/prueba2/';
 audio_files = dir(fullfile([audiodir,'*.wav']));
 
 order = 12;
@@ -23,7 +23,7 @@ for idx = 1:numel(audio_files)
     
 end
 
-fismat = readfis('asr_fis');
+fismat = readfis('asr_anfis');
 
 dist_matrix = zeros(size(audio_files,1));
 for idx = 1:numel(audio_files)

@@ -17,8 +17,8 @@ function [mfcc_matrix, yule_matrix, centroid_mfcc, centroid_yule] = genWordModel
 
     end
 
-    centroid_mfcc = getMedianMfcc(mfcc_matrix);
-%     centroid_mfcc = getANFISApproxMfcc(mfcc_matrix);
+%     centroid_mfcc = getMedianMfcc(mfcc_matrix);
+    centroid_mfcc = getANFISApproxMfcc(mfcc_matrix);
     centroid_yule = getMeanYule(yule_matrix);
 %     centroid_yule = getMedianYule(yule_matrix);
     

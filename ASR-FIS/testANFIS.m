@@ -1,4 +1,4 @@
-%clear all;close all;clc;
+clear all;close all;clc;
 addpath('../voicebox');
 modeldir = 'voice_models/';
 mkdir(modeldir);
@@ -48,7 +48,7 @@ initFis = genfis1(trnData,numMFs,inmftype,outmftype);
 [asr_anfis,error,stepsize,chkFis,chkErr] = ...
             anfis(trnData,initFis,trnOpt,dispOpt,chkData,optMethod);
         
-writefis(asr_anfis,'asr_anfis');
+% writefis(asr_anfis,'asr_anfis');
 
 %%
 % asr_anfis = readfis('asr_anfis');
