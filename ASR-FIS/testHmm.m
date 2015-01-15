@@ -1,32 +1,56 @@
-%http://www.cs.ubc.ca/~murphyk/Software/HMM/hmm_usage.html
 clear all;close all;clc;
-addpath('../voicebox');
-modeldir = 'voice_models/';
-mkdir(modeldir);
 
-clear all;close all;clc;
-addpath('../voicebox');
-modeldir = 'voice_models/';
+trainHmm
 
-modelName = input('Name of the model:','s');
-load([modeldir,modelName,'.mat']);
+% asr_hmm = load('asr_hmm.mat');
 
-numWords = numel(model.words);
-chunks = size(model.words(1).mfcc_matrix,1);
-numSamples = size(model.words(1).mfcc_matrix,2);
-numComps = size(model.words(1).mfcc_matrix,3);
-
-
-trnData = [];
+ll_matrix = zeros(numSamples,numWords);
+dim = ndims(model.words(1).mfcc_matrix);
 for idx = 1:numWords
-    for idx2 = idx:numWords
+    for idx2 = 1:numWords
         for idy = 1:numSamples
-            mfcc_dist = 0;
-            for idz = 1:numComps
-                trnData = [trnData; model.words(idx).mfcc_matrix(:,idy,idz)'];
-            end
+            mfcc_sample = cat(dim,model.words(idx).mfcc_matrix{idy,:});
+
+            ll_matrix(idy, idx, idx2) = ...
+                dhmm_logprob( ...
+                    encodeSample(mfcc_sample, asr_hmm.kmeans_matrix), ... 
+                    asr_hmm.hmm_matrix{idx2}.prior, ...
+                    asr_hmm.hmm_matrix{idx2}.transmat, ...
+                    asr_hmm.hmm_matrix{idx2}.obsmat);
         end
     end
 end
 
-idx = kmeans(trnData,10)
+disp('auto_test');
+for idx = 1:numWords
+    dataset({ll_matrix(:,:,idx),model.words(:).name})
+end
+
+%%
+
+    input('Press enter to test new word','s');
+    recordAnother = 'y';
+    while(~strcmp(recordAnother,'n'))
+        ll_matrix = zeros(1,numWords);
+        [audioData,fs] = voiceRecorder(model.name,'test',false);
+
+        [test_mfcc_matrix, test_yule_matrix, test_centroid_mfcc, test_centroid_yule] ...
+            = getWordModel({audioData},fs,chunks);
+
+        for idx = 1:numWords
+            mfcc_sample = cat(dim,test_mfcc_matrix{1,:});
+
+            ll_matrix(1, idx) = ...
+                dhmm_logprob( ...
+                    encodeSample(mfcc_sample, asr_hmm.kmeans_matrix), ... 
+                    asr_hmm.hmm_matrix{idx}.prior, ...
+                    asr_hmm.hmm_matrix{idx}.transmat, ...
+                    asr_hmm.hmm_matrix{idx}.obsmat);
+        end
+        ll_matrix
+        [min_dist, max_idx] = max(ll_matrix,[],2);
+        disp(['Predicted word: ', model.words(max_idx).name]);
+        disp(['Distance: ', num2str(min_dist)]);
+        recordAnother = input('test another word? (y/n)','s');
+
+    end
