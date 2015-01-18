@@ -1,9 +1,9 @@
 function [anfis_mfcc] = getANFISApproxMfcc(mfcc_matrix)
-    chunks = size(mfcc_matrix,1);
-    numSamples = size(mfcc_matrix,2);
-    numComps = size(mfcc_matrix,3);
 
-    anfis_mfcc(:,:) = mfcc_matrix(:,1,:);
+    numSamples = size(mfcc_matrix,1);
+    numComps = size(mfcc_matrix,2);
+
+    anfis_mfcc{:} = mfcc_matrix{1,:};
     
     trnData = [];
     chkData = [];
@@ -12,15 +12,20 @@ function [anfis_mfcc] = getANFISApproxMfcc(mfcc_matrix)
     inmftype = 'gbellmf';
     outmftype = 'linear';
 
-    trnOpt = [100, 0, 0.02, 0.8, 1.2];
+    trnOpt = [20, 0, 0.2, 0.8, 1.2];
     dispOpt = [1,1,1,1];
     optMethod = 1;
 
 
     for idz = 1:numComps
-        trnData = zeros(numSamples*chunks,2);
+        trnData = [];
+        minSampleSize = realmax;
         for idy = 1:numSamples
-            trnData(idy:idy+chunks-1,:) = [(1:chunks)', model.words(idx).mfcc_matrix(:,idy,idz)];
+            sampleSize = size(mfcc_matrix{idy,idz},1);
+            if(sampleSize < minSampleSize)
+                minSampleSize = sampleSize;
+            end
+            trnData = [trnData; (1:sampleSize)', mfcc_matrix{idy,idz}];
         end
 
         initFis = genfis1(trnData,numMFs,inmftype,outmftype);
@@ -28,6 +33,6 @@ function [anfis_mfcc] = getANFISApproxMfcc(mfcc_matrix)
         [fis,error,stepsize,chkFis,chkErr] = ...
             anfis(trnData,initFis,trnOpt,dispOpt,chkData,optMethod);
 
-        anfis_mfcc(:,idz) = evalfis((1:chunks)',fis);
+        anfis_mfcc{idz} = evalfis((1:minSampleSize)',fis);
     end
 end
