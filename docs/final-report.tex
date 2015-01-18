@@ -1,0 +1,100 @@
+\documentclass[anon]{CI}
+
+% The following packages will be automatically loaded:
+% amsmath, amssymb, natbib, graphicx, url, algorithm2e
+
+\title[Voice Command Recognition]{Voice Command Recognition}
+
+  Authors with different addresses:
+ \author{\Name{Javier Fern\'andez} \Email{javierfdr@gmail.com}\\
+ \AND
+ \Name{Alejandro Hern\'andez} \Email{alejandro.ajhr@gmail.com}\\
+ }
+
+\begin{document}
+
+\maketitle
+
+\abstract{This is an abstract. Writing stuff here.}
+
+\section{Introduction}
+
+Speech recognition is a complex study field that focus on the translation of spoken words into text, commonly through the use of computer systems. To recognize words from audio brings many challenging tasks to deal with such as vocalization variations in terms of accent, pronunciation, volume and speed, reading vs. spontaneous speech, known vocabulary size, and environmental noise, among others. Speech recognition systems often require to gather and process great amounts of audio data and are dependent on the available languages and the quality of this data, and also it needs large corpora of text to build language models that allows the system to correct most mistakes and produce a text output of decent quality. Moreover, after these models are built and trained, both audio and text based commonly require high processing capacities from computer servers.\\
+
+Speech recognition has many applications, and becomes particularly interesting when including it within embedded computing devices connected to the internet infrastructure, referred currently as \emph{The internet of things (IoT)}. Having these devices the ability to understand human voice commands could improve the usability of this gadgets and also become its use more \emph{natural}. An application of this can be seen, for example, for home automation devices such as  centralized control of lighting, ventilation and air conditioning, home entertainment systems, pet feeding, home robot control and even security locks.\\
+However, implementing a speech recognition system for \emph{IoT} would have to deal with all the problems listed above, and would require to be consistently accurate in order to be feasible to be used by humans. It also requires technology and data processing time that is less likely that it could be managed by small to medium companies providing \emph{IoT} gadgets.\\
+
+A solution for this problem would need to be easily trained, very accurate for a set of specific commands accepted by each gadget, and implemented in a light-weight technology that could be either embedded on \emph{IoT} objects or lightly deployed on computer servers.
+
+\section{Background}
+BACKGROUND
+
+\section{Theoretical Framework}
+Theoretical Framework 
+
+
+\section{Proposed Solution}
+
+A voice command recognition solution is proposed that can be implemented in \emph{IoT} gadgets, requiring a simple training phase and being accurate for recognizing specific voice commands accepted by each particular gadget. The purpose of the system is not to establish a dialogue but to convey an instruction, and according with that perspective the solution focuses in recognizing the voice tone differences that are more likely to represent a particular command. The audio is not translated to text, but matched with a learned model of voice tones referring to specific commands. A classification algorithm is used to learn patterns in the training audio data and outputs a specific command (class) from a given input. It is also a desirable quality of the system to be invariant with respect to the users, been able to recognize the same command from different people, provided they have a relatively close pronunciation of the word.
+
+\subsection{Goals}
+\begin{itemize}
+	\item To recognize specific commands from audio input.
+	\item Robust recognition based on voice tone differences, minimizing false negatives.
+	\item To develop and easy to train and fast to classify solution that is fit to run on embedded systems or light-weight servers.
+	\item Good performance compared with existing open source speech 
+recognition solutions.
+\end{itemize}
+
+\section{Experiments}
+Experiments
+
+\section{Results}
+
+\section{Conclusions}
+
+\section{Future Work}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{shazam}
+  Avery Li-Chun Wang,
+  \emph{An Industrial-Strength Audio Search Algorithm}.
+4th Symposium Conference on Music Information Retrieval, page 7--13,
+  2003.
+
+\bibitem{sphinx}
+  Kai-Fu Lee, Hsiao-Wuen Hon, and Raj Reddy
+  \emph{An Overview of the SPHINX Speech 
+Recognition System }.
+IEEE Transactions on Acoustic Speech  and Signal Processing, VOL. 38. NO. I, 
+  1990.
+
+\bibitem{pocketsphinx}
+ David Huggins-Daines, Mohit Kumar, Arthur Chan,
+Alan W Black, Mosur Ravishankar, and Alex I. Rudnicky
+  \emph{PocketSphinx: A Free, real-time continuous speech recognition system for hand-held devices.
+ },
+2006 IEEE International Conference on Acoustics, Speech, and Signal Processing,
+  2006.
+
+\bibitem{parakeet}
+ Keith Vertanen and Per Ola Kristensson 
+  \emph{Parakeet: A Continuous Speech Recognition System 
+for Mobile Touch-Screen Devices 
+ },
+
+IUI '09 Proceedings of the 14th international conference on Intelligent user interfaces
+Pages 237-246,
+ 2009.
+
+\bibitem{singingspeech}
+ Khunarsal, P, Lursinsap, C.  and Raicharoen, T.
+Alan W Black, Mosur Ravishankar, and Alex I. Rudnicky
+  \emph{Singing voice recognition based on matching of spectrogram pattern }, Neural Networks, 2009. IJCNN 2009.
+\end{thebibliography}
+
+\end{document}
+
+
