@@ -4,7 +4,7 @@ trainHMM
 
 modelInit
 load('asr_hmm.mat');
-
+% addpath(genpath('../HMMall'));
 autoTestHMM
 
 input('Press enter to test new word','s');

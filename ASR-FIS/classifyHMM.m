@@ -17,7 +17,7 @@ function [pred_class, max_llike, ll_matrix] = classifyHMM(asr_hmm, test_mfcc_mat
                 asr_hmm.hmm_matrix{idx}.transmat, ...
                 asr_hmm.hmm_matrix{idx}.obsmat);
     end
-    ll_matrix
+    ll_matrix;
     [max_llike, pred_class] = max(ll_matrix,[],2);
     if max_llike == -Inf;
         pred_class = 0;

@@ -11,7 +11,7 @@ for idx = 1:numWords
             end
             yule_dist = sum(diag(pdist2(model.words(idx).centroid_yule',model.words(idx2).yule_matrix{idy}')));
 
-            trnData = [trnData; mfcc_dist, yule_dist, (idx ~= idx2)*1000];
+            trnData = [trnData; mfcc_dist, yule_dist, ((idx ~= idx2)*800)+200];
         end
     end
 end
@@ -22,7 +22,7 @@ numMFs = 2;
 inmftype = 'gbellmf';
 outmftype = 'linear';
 
-trnOpt = [20, 0, 0.02, 0.8, 1.2];
+trnOpt = [50, 0, 0.02, 0.8, 1.2];
 dispOpt = [1,1,1,1];
 optMethod = 1;
 

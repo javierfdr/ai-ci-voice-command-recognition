@@ -2,7 +2,7 @@ function [mfcc_matrix, yule_matrix, centroid_mfcc, centroid_yule] = getWordModel
     
     numSamples = size(AUDIOS,2);
     order = 12;
-    nfft = 512;
+    nfft = 64;
     mfcc_comps = 12;
 %     mfcc_matrix = zeros(CHUNKS,numSamples,mfcc_comps);
 %     yule_matrix = zeros((nfft/2+1),numSamples);

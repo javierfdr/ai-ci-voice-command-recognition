@@ -13,8 +13,10 @@ function [pred_class, min_dist, dist_matrix] = classifyFIS(fis,model,test_mfcc_m
         end
         yule_dist = sum(diag(pdist2(model.words(idx).centroid_yule',test_yule_matrix{1}')));
 %         yule_dist = dtw(model.words(idx).centroid_yule',test_yule_matrix{1}');
-
-        fisinput = [mfcc_dist, yule_dist]
+%         figure();
+%         plot(model.words(idx).centroid_yule','go');hold on;
+%         plot(test_yule_matrix{1}');
+        fisinput = [mfcc_dist, yule_dist];
         dist_matrix(1, idx) = evalfis(fisinput,fis);
     end
     dist_matrix;
