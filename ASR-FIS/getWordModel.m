@@ -1,4 +1,4 @@
-function [mfcc_matrix, yule_matrix, centroid_mfcc, centroid_yule] = genWordModel(AUDIOS,FSS,CHUNKS,ANFAPROX)
+function [mfcc_matrix, yule_matrix, centroid_mfcc, centroid_yule] = getWordModel(AUDIOS,FSS,CHUNKS,ANFAPROX)
     
     numSamples = size(AUDIOS,2);
     order = 12;
@@ -24,6 +24,10 @@ function [mfcc_matrix, yule_matrix, centroid_mfcc, centroid_yule] = genWordModel
 
     if(nargin > 3 && ANFAPROX)
         centroid_mfcc = getANFISApproxMfcc(mfcc_matrix);
+        
+%         figure();
+%         plot(mfcc_matrix{idy,1}','rx'); hold on;
+%         plot(centroid_mfcc{1},'go');
     else
         centroid_mfcc = getMedianMfcc(mfcc_matrix);
     end
@@ -31,8 +35,4 @@ function [mfcc_matrix, yule_matrix, centroid_mfcc, centroid_yule] = genWordModel
     centroid_yule = getMeanYule(yule_matrix);
 %     centroid_yule = getMedianYule(yule_matrix);
     
-%     figure();
-%     plot((1:CHUNKS)',anfis_mfcc,'rx');hold on;
-%     plot((1:CHUNKS)',centroid_mfcc(:,1),'go');
-
 end

@@ -12,7 +12,7 @@ function [anfis_mfcc] = getANFISApproxMfcc(mfcc_matrix)
     inmftype = 'gbellmf';
     outmftype = 'linear';
 
-    trnOpt = [50, 0, 0.02, 0.8, 1.2];
+    trnOpt = [20, 0, 0.02, 0.8, 1.2];
     dispOpt = [1,1,1,1];
     optMethod = 1;
 

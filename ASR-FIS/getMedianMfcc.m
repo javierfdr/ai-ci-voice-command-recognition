@@ -1,8 +1,10 @@
 function [median_mfcc] = getMedianMfcc(mfcc_matrix)
     numSamples = size(mfcc_matrix,1);
     numComps = size(mfcc_matrix,2);
-
-    median_mfcc = mfcc_matrix{1,:};
+    
+    for idz = 1:numComps
+        median_mfcc{idz} = mfcc_matrix{1,idz};
+    end
     current_dist = realmax;
     for idx = 1:numSamples
         mfcc_dist = 0;
@@ -14,7 +16,9 @@ function [median_mfcc] = getMedianMfcc(mfcc_matrix)
         
         if mfcc_dist < current_dist
            current_dist =  mfcc_dist;
-           median_mfcc = mfcc_matrix{idx,:};
+           for idz = 1:numComps
+             median_mfcc{idz} = mfcc_matrix{idx,idz};
+           end
         end
     end
 

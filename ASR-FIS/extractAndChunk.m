@@ -2,6 +2,7 @@ function [mSeq] = extractAndChunk(AUDIO, FS, CHUNKS)
     % Cleaning non speech
     [y,z]  = vadsohn(AUDIO,FS);    
     seq = AUDIO(logical(y));
+%     seq = AUDIO;
     
     % Computing MFCC
     [mSeq, ct] = melcepst(seq,FS);

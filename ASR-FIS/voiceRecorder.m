@@ -2,7 +2,7 @@ function [audioData,fs] = voiceRecorder(MODELNAME, WORDNAME, SAVE)
     audiodir = 'audio_files/';
     mkdir(audiodir);
     mkdir(audiodir,MODELNAME);
-    fs = 8000;
+    fs = 22000;
     Nbit = 16;
     Nchan = 1;
     

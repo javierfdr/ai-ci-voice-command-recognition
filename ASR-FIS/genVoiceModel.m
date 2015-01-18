@@ -7,7 +7,7 @@ model.name = input('Name of the model:','s');
 numSamples = input('Samples per word:');
 recordAnother = 'y';
 model.words = [];
-chunks = 100;
+chunks = 20;
 anfaprox = true;
 while(~strcmp(recordAnother,'n'))
     word.name = input('Word to record:','s');
