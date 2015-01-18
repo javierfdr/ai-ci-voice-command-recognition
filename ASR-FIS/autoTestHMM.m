@@ -1,7 +1,7 @@
-clear all;close all;clc;
-addpath(genpath('../HMMall'));
-modelInit
-load('asr_hmm.mat');
+% clear all;close all;clc;
+% addpath(genpath('../HMMall'));
+% modelInit
+% load('asr_hmm.mat');
 
 ll_matrix = zeros(numSamples,numWords);
 dim = ndims(model.words(1).mfcc_matrix);

@@ -1,10 +1,10 @@
 clear all;close all;clc;
 
-trainHMM
+% trainHMM
 
 modelInit
+addpath(genpath('../HMMall'));
 load('asr_hmm.mat');
-% addpath(genpath('../HMMall'));
 autoTestHMM
 
 input('Press enter to test new word','s');
