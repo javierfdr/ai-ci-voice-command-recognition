@@ -1,4 +1,4 @@
-modelInit;
+% modelInit
 
 trnData = [];
 for idx = 1:numWords

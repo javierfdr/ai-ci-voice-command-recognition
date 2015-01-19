@@ -21,5 +21,8 @@ function [pred_class, min_dist, dist_matrix] = classifyFIS(fis,model,test_mfcc_m
     end
     dist_matrix;
     [min_dist, pred_class] = min(dist_matrix,[],2);
+    if isnan(min_dist) || min_dist == Inf;
+        pred_class = 0;
+    end
 
 end

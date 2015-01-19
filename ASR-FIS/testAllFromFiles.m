@@ -1,8 +1,15 @@
-clear all;close all;clc;
+% clear all;close all;clc;
+resultsdir = 'test_results/';
+mkdir(resultsdir);
 
-modelInit
+trainANFIS
+% clear all;close all;clc;
+trainHMM
+% clear all;close all;clc;
+
+% modelInit
 testdir = ['audio_files/',model.name,'/test/'];
-test_files = dir(fullfile([testdir,'*.wav']));
+testFiles = dir(fullfile([testdir,'*.wav']));
 
 load('asr_hmm.mat');
 addpath(genpath('../HMMall'));
@@ -10,11 +17,25 @@ addpath(genpath('../HMMall'));
 asr_anfis = readfis('asr_anfis');
 asr_fis = readfis('asr_fis');
 
+wordsarr = {model.words(:).name};
 
-pred_matrix = zeros(2,3,numel(test_files));
-for idf = 1:numel(test_files)
+accFIS = 0;
+accANFIS = 0;
+accHMM = 0;
+confusFIS = zeros(numWords,numWords);
+confusANFIS = zeros(numWords,numWords);
+confusHMM = zeros(numWords,numWords);
+
+numFiles = numel(testFiles);
+predMatrix = zeros(3,2,numFiles);
+for idf = 1:numFiles
     
-    [audioData,fs] = audioread([testdir,test_files(idf).name]);
+    filename = testFiles(idf).name;
+    dashpos = regexpi(filename,'-');
+    wordname = filename(1:dashpos-1);  
+    realClass = find(strcmp(wordsarr, wordname));
+    
+    [audioData,fs] = audioread([testdir,filename]);
 
     [test_mfcc_matrix, test_yule_matrix, test_centroid_mfcc, test_centroid_yule] ...
         = getWordModel({audioData},fs,chunks);
@@ -22,21 +43,46 @@ for idf = 1:numel(test_files)
     % Simple FIS classifier
     [pred_class, min_dist, ~] = ...
             classifyFIS(asr_fis,model,test_mfcc_matrix,test_yule_matrix);
-    pred_matrix(:,1,idf) = [pred_class; min_dist];
-        
+    predMatrix(1,:,idf) = [pred_class, min_dist];
+    accFIS = accFIS + (pred_class == realClass);
+    if(pred_class ~= 0)
+        confusFIS(realClass,pred_class) = ...
+            confusFIS(realClass,pred_class) + 1;
+    end
+
     % ANFIS classifier
     [pred_class, min_dist, ~] = ...
             classifyFIS(asr_anfis,model,test_mfcc_matrix,test_yule_matrix);
-    
-    pred_matrix(:,2,idf) = [pred_class; min_dist];
+    predMatrix(2,:,idf) = [pred_class, min_dist];
+    accANFIS = accANFIS + (pred_class == realClass);
+    if(pred_class ~= 0)
+        confusANFIS(realClass,pred_class) = ...
+            confusANFIS(realClass,pred_class) + 1;
+    end
     
     % HMM Classifier
     [pred_class, max_llike, ~] = classifyHMM(asr_hmm, test_mfcc_matrix);
-    
-    pred_matrix(:,3,idf) = [pred_class; max_llike];
+    predMatrix(3,:,idf) = [pred_class, max_llike];
+    accHMM = accHMM + (pred_class == realClass);
+    if(pred_class ~= 0)
+        confusHMM(realClass,pred_class) = ...
+            confusHMM(realClass,pred_class) + 1;
+    end
     
 end
 
-for idf = 1:numel(test_files)
-    dataset([pred_matrix(:,:,idf),{'FIS' 'ANFIS' 'HMM'}])
-end
+result.predMatrix = predMatrix;
+
+result.accFIS = accFIS/numFiles;
+result.accANFIS = accANFIS/numFiles;
+result.accHMM = accHMM/numFiles;
+
+result.confusFIS = confusFIS;
+result.confusANFIS = confusANFIS;
+result.confusHMM = confusHMM;
+
+save([resultsdir,model.name],'result');
+
+% for idf = 1:numFiles
+%     dataset([pred_matrix(:,:,idf)',{'FIS' 'ANFIS' 'HMM'}])
+% end

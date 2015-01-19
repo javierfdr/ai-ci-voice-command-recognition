@@ -1,4 +1,4 @@
-modelInit
+% modelInit
 addpath(genpath('../HMMall'));
 
 %% Kmeans for the MFCC model
@@ -39,7 +39,7 @@ for idx = 1:numWords
     obsmat1 = mk_stochastic(rand(Q,O));
     
     [LL, prior2, transmat2, obsmat2] = ...
-        dhmm_em(trnData, prior1, transmat1, obsmat1, 'max_iter', 10);
+        dhmm_em(trnData, prior1, transmat1, obsmat1, 'max_iter', 5);
     
     asr_hmm.hmm_matrix{idx}.prior = prior2;
     asr_hmm.hmm_matrix{idx}.transmat = transmat2;
